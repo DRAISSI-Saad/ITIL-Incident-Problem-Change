@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             id="Definitions_1"
+             targetNamespace="http://example.com/itil">
+
+  <collaboration id="Collab_1">
+    <participant id="Pool_1" name="Processus ITIL : Incident - Problem - Change" processRef="Process_1"/>
+  </collaboration>
+
+  <process id="Process_1" name="Incident - Problem - Change" isExecutable="false">
+    <laneSet id="LaneSet_1">
+      <lane id="Lane_User" name="Utilisateur">
+        <flowNodeRef>Start_1</flowNodeRef>
+      </lane>
+      <lane id="Lane_SD" name="Service Desk">
+        <flowNodeRef>T1</flowNodeRef>
+        <flowNodeRef>T2</flowNodeRef>
+        <flowNodeRef>GW1</flowNodeRef>
+        <flowNodeRef>End1</flowNodeRef>
+      </lane>
+      <lane id="Lane_PM" name="Gestion des problèmes">
+        <flowNodeRef>T3</flowNodeRef>
+        <flowNodeRef>T4</flowNodeRef>
+        <flowNodeRef>T5</flowNodeRef>
+        <flowNodeRef>GW2</flowNodeRef>
+        <flowNodeRef>T10</flowNodeRef>
+        <flowNodeRef>End2</flowNodeRef>
+      </lane>
+      <lane id="Lane_CM" name="Gestion des changements (CAB)">
+        <flowNodeRef>T6</flowNodeRef>
+        <flowNodeRef>T7</flowNodeRef>
+        <flowNodeRef>T9</flowNodeRef>
+        <flowNodeRef>End3</flowNodeRef>
+      </lane>
+      <lane id="Lane_Dev" name="Équipe technique / Développeur">
+        <flowNodeRef>T8</flowNodeRef>
+      </lane>
+    </laneSet>
+
+    <startEvent id="Start_1" name="Panne ERP détectée"/>
+    <task id="T1" name="Enregistrer l'incident"/>
+    <task id="T2" name="Restaurer le service (redémarrage)"/>
+    <exclusiveGateway id="GW1" name="Incident récurrent ?"/>
+    <endEvent id="End1" name="Incident clôturé"/>
+
+    <task id="T3" name="Créer un Problem"/>
+    <task id="T4" name="Analyser la cause racine"/>
+    <task id="T5" name="Documenter Known Error et solution"/>
+    <exclusiveGateway id="GW2" name="Modification nécessaire ?"/>
+    <task id="T10" name="Clôturer le Problem"/>
+    <endEvent id="End2" name="Problem clôturé"/>
+
+    <task id="T6" name="Créer la RFC et évaluer risques/impact"/>
+    <task id="T7" name="Approuver la RFC (CAB)"/>
+    <task id="T8" name="Tester et implémenter le changement"/>
+    <task id="T9" name="Revue post-implémentation (PIR) et clôture du Change"/>
+    <endEvent id="End3" name="Service stable, Change clôturé"/>
+
+    <sequenceFlow id="F1" sourceRef="Start_1" targetRef="T1"/>
+    <sequenceFlow id="F2" sourceRef="T1" targetRef="T2"/>
+    <sequenceFlow id="F3" sourceRef="T2" targetRef="GW1"/>
+    <sequenceFlow id="F4" name="Non" sourceRef="GW1" targetRef="End1"/>
+    <sequenceFlow id="F5" name="Oui" sourceRef="GW1" targetRef="T3"/>
+    <sequenceFlow id="F6" sourceRef="T3" targetRef="T4"/>
+    <sequenceFlow id="F7" sourceRef="T4" targetRef="T5"/>
+    <sequenceFlow id="F8" sourceRef="T5" targetRef="GW2"/>
+    <sequenceFlow id="F9" name="Non" sourceRef="GW2" targetRef="T10"/>
+    <sequenceFlow id="F10" sourceRef="T10" targetRef="End2"/>
+    <sequenceFlow id="F11" name="Oui" sourceRef="GW2" targetRef="T6"/>
+    <sequenceFlow id="F12" sourceRef="T6" targetRef="T7"/>
+    <sequenceFlow id="F13" sourceRef="T7" targetRef="T8"/>
+    <sequenceFlow id="F14" sourceRef="T8" targetRef="T9"/>
+    <sequenceFlow id="F15" sourceRef="T9" targetRef="End3"/>
+  </process>
+
+  <bpmndi:BPMNDiagram id="Diagram_1">
+    <bpmndi:BPMNPlane id="Plane_1" bpmnElement="Collab_1">
+
+      <bpmndi:BPMNShape id="S_Pool" bpmnElement="Pool_1" isHorizontal="true">
+        <dc:Bounds x="100" y="50" width="1500" height="600"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_Lane_User" bpmnElement="Lane_User" isHorizontal="true">
+        <dc:Bounds x="130" y="50" width="1470" height="120"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_Lane_SD" bpmnElement="Lane_SD" isHorizontal="true">
+        <dc:Bounds x="130" y="170" width="1470" height="120"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_Lane_PM" bpmnElement="Lane_PM" isHorizontal="true">
+        <dc:Bounds x="130" y="290" width="1470" height="120"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_Lane_CM" bpmnElement="Lane_CM" isHorizontal="true">
+        <dc:Bounds x="130" y="410" width="1470" height="120"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_Lane_Dev" bpmnElement="Lane_Dev" isHorizontal="true">
+        <dc:Bounds x="130" y="530" width="1470" height="120"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="S_Start_1" bpmnElement="Start_1">
+        <dc:Bounds x="170" y="92" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_T1" bpmnElement="T1">
+        <dc:Bounds x="230" y="190" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_T2" bpmnElement="T2">
+        <dc:Bounds x="370" y="190" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_GW1" bpmnElement="GW1" isMarkerVisible="true">
+        <dc:Bounds x="510" y="205" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_End1" bpmnElement="End1">
+        <dc:Bounds x="620" y="212" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="S_T3" bpmnElement="T3">
+        <dc:Bounds x="580" y="310" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_T4" bpmnElement="T4">
+        <dc:Bounds x="720" y="310" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_T5" bpmnElement="T5">
+        <dc:Bounds x="860" y="310" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_GW2" bpmnElement="GW2" isMarkerVisible="true">
+        <dc:Bounds x="990" y="325" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_T10" bpmnElement="T10">
+        <dc:Bounds x="1080" y="310" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_End2" bpmnElement="End2">
+        <dc:Bounds x="1230" y="332" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="S_T6" bpmnElement="T6">
+        <dc:Bounds x="1060" y="430" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_T7" bpmnElement="T7">
+        <dc:Bounds x="1200" y="430" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_T8" bpmnElement="T8">
+        <dc:Bounds x="1200" y="550" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_T9" bpmnElement="T9">
+        <dc:Bounds x="1340" y="430" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_End3" bpmnElement="End3">
+        <dc:Bounds x="1480" y="452" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNEdge id="E_F1" bpmnElement="F1">
+        <di:waypoint x="188" y="128"/><di:waypoint x="188" y="230"/><di:waypoint x="230" y="230"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_F2" bpmnElement="F2">
+        <di:waypoint x="330" y="230"/><di:waypoint x="370" y="230"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_F3" bpmnElement="F3">
+        <di:waypoint x="470" y="230"/><di:waypoint x="510" y="230"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_F4" bpmnElement="F4">
+        <di:waypoint x="560" y="230"/><di:waypoint x="620" y="230"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_F5" bpmnElement="F5">
+        <di:waypoint x="535" y="255"/><di:waypoint x="535" y="350"/><di:waypoint x="580" y="350"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_F6" bpmnElement="F6">
+        <di:waypoint x="680" y="350"/><di:waypoint x="720" y="350"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_F7" bpmnElement="F7">
+        <di:waypoint x="820" y="350"/><di:waypoint x="860" y="350"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_F8" bpmnElement="F8">
+        <di:waypoint x="960" y="350"/><di:waypoint x="990" y="350"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_F9" bpmnElement="F9">
+        <di:waypoint x="1040" y="350"/><di:waypoint x="1080" y="350"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_F10" bpmnElement="F10">
+        <di:waypoint x="1180" y="350"/><di:waypoint x="1230" y="350"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_F11" bpmnElement="F11">
+        <di:waypoint x="1015" y="375"/><di:waypoint x="1015" y="470"/><di:waypoint x="1060" y="470"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_F12" bpmnElement="F12">
+        <di:waypoint x="1160" y="470"/><di:waypoint x="1200" y="470"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_F13" bpmnElement="F13">
+        <di:waypoint x="1250" y="510"/><di:waypoint x="1250" y="550"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_F14" bpmnElement="F14">
+        <di:waypoint x="1300" y="590"/><di:waypoint x="1390" y="590"/><di:waypoint x="1390" y="510"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="E_F15" bpmnElement="F15">
+        <di:waypoint x="1440" y="470"/><di:waypoint x="1480" y="470"/>
+      </bpmndi:BPMNEdge>
+
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
